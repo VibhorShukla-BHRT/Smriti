@@ -1,0 +1,20 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "main": "index.ts",
+  "repository": "https://github.com/VibhorShukla-BHRT/Smriti.git",
+  "license": "MIT",
+  "scripts": {
+    "start": "tsc -b && node dist/index.js",
+    "dev": "nodemon --ext ts --exec npx ts-node src/index.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.0",
+    "@types/mongoose": "^5.11.97",
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "mongoose": "^8.12.1"
+  }
+}
