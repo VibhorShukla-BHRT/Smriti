@@ -1,0 +1,7 @@
+face_recognition
+opencv-python
+numpy
+pyttsx3
+flask
+pillow
+werkzeug
