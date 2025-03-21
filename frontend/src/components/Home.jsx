@@ -1,11 +1,11 @@
 import React from 'react';
-import { Heart, Users, Calendar, Bell, Shield, Brain,MapPin, CalendarDays } from 'lucide-react';
+import { Heart, Users, Calendar, Bell, Shield, Brain,MapPin, CalendarDays} from 'lucide-react';
 import image from '../assets/nurse-holding-hand.png'
-function FeatureCard({ icon: Icon, title, description }) {
+function FeatureCard({ title, description }) {
   return (
     <div className="bg-white/50 backdrop-blur-sm p-6 rounded-xl shadow-lg hover:shadow-xl transition-all">
       <div className="h-12 w-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
-        <Icon className="h-6 w-6 text-purple-600" />
+        {/* <Icon className="h-6 w-6 text-purple-600" /> */}
       </div>
       <h3 className="text-xl font-semibold mb-2">{title}</h3>
       <p className="text-gray-600">{description}</p>
