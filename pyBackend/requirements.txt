@@ -5,3 +5,9 @@ pyttsx3
 flask
 pillow
 werkzeug
+rasa
+python-dotenv
+sqlalchemy<2.0
+flask 
+requests
+httpx
