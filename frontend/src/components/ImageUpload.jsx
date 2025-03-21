@@ -88,7 +88,7 @@ function App() {
       formData.append('image', image.file);
       formData.append('description', image.description);
 
-      await fetch('/api/upload', {
+      await fetch('api/save-image', {
         method: 'POST',
         body: formData
       });
