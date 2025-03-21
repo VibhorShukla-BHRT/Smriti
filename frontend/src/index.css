@@ -1,1 +1,63 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes glitter {
+  0%, 100% { opacity: 1; transform: scale(1.2); }
+  50% { opacity: 0.5; transform: scale(1); }
+}
+
+.glitter {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: white;
+  border-radius: 50%;
+  animation: glitter 1.5s ease-in-out infinite;
+}
+
+.gradient-button {
+  background: linear-gradient(45deg, #8b5cf6, #ec4899);
+  transition: all 0.3s ease;
+}
+
+.gradient-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(139, 92, 246, 0.3);
+}
+
+.auth-card {
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  animation: float 6s ease-in-out infinite;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+.logo-animation {
+  animation: float 3s ease-in-out infinite;
+  box-shadow: 0 10px 20px rgba(139, 92, 246, 0.2);
+}
+
+.google-signin-btn {
+  transition: all 0.3s ease;
+}
+
+.google-signin-btn:hover {
+  transform: translateY(-1px);
+  background-color: #f8fafc;
+}
+
+/* Add smooth transitions for input fields */
+input {
+  transition: all 0.2s ease-in-out;
+}
+
+input:focus {
+  transform: translateY(-1px);
+}
