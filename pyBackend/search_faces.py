@@ -26,7 +26,7 @@ def find_matching_faces(query_image_path, tolerance=0.6):
     # Fetch all stored encodings
     cursor.execute("SELECT name, image_path, encoding FROM faces")
     rows = cursor.fetchall()
-
+    
     matching_images = []
 
     for name, image_path, encoding_blob in rows:
