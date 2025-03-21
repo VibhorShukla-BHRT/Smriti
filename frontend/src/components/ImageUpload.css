@@ -1,0 +1,58 @@
+.glitter-background {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .glitter-background::before,
+  .glitter-background::after {
+    content: '';
+    position: absolute;
+    inset: -50%;
+    background-image: 
+      radial-gradient(white, transparent 1px),
+      radial-gradient(white, transparent 1px);
+    background-size: 30px 30px;
+    background-position: 0 0, 15px 15px;
+    animation: glitterAnimation 4s linear infinite;
+    opacity: 0.2;
+    pointer-events: none;
+  }
+  
+  .glitter-background::after {
+    animation-delay: -2s;
+    animation-duration: 6s;
+    background-size: 40px 40px;
+    background-position: 0 0, 20px 20px;
+  }
+  
+  @keyframes glitterAnimation {
+    0% {
+      transform: translate(0, 0) rotate(0deg);
+    }
+    100% {
+      transform: translate(-50%, -50%) rotate(180deg);
+    }
+  }
+  
+  .sparkle {
+    position: absolute;
+    pointer-events: none;
+    background: white;
+    border-radius: 50%;
+    animation: sparkleAnimation 3s linear infinite;
+  }
+  
+  @keyframes sparkleAnimation {
+    0% {
+      opacity: 0;
+      transform: scale(0) rotate(0deg);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1) rotate(180deg);
+    }
+    100% {
+      opacity: 0;
+      transform: scale(0) rotate(360deg);
+    }
+  }
