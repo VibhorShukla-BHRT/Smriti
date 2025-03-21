@@ -14,21 +14,21 @@ function GlitterBackground() {
     setGlitters(newGlitters);
   }, []);
 
-  return (
-    <div className="fixed inset-0 overflow-hidden">
-      {glitters.map((glitter) => (
-        <div
-          key={glitter.id}
-          className="glitter"
-          style={{
-            left: glitter.left,
-            top: glitter.top,
-            animationDelay: glitter.delay
-          }}
-        />
-      ))}
-    </div>
-  );
+  // return (
+  //   <div className="fixed inset-0 overflow-hidden">
+  //     {glitters.map((glitter) => (
+  //       <div
+  //         key={glitter.id}
+  //         className="glitter"
+  //         style={{
+  //           left: glitter.left,
+  //           top: glitter.top,
+  //           animationDelay: glitter.delay
+  //         }}
+  //       />
+  //     ))}
+  //   </div>
+  // );
 }
 
 function InputField({ type = "text", label, placeholder, value, onChange }) {
@@ -192,7 +192,7 @@ function Auth() {
   const [signupData, setSignupData] = useState({ name: '', email: '', password: '', confirmPassword: '' });
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-400 to-pink-400 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-purple-400 to-pink-400 flex items-center justify-center p-4 pt-[5rem]">
       <GlitterBackground />
       <AuthForm
         isLogin={isLogin}
