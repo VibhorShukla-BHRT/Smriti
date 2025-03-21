@@ -20,7 +20,7 @@ function Navbar() {
           <button className="text-white hover:text-purple-200">About</button>
           <button className="text-white hover:text-purple-200">Features</button>
           <button className="text-white hover:text-purple-200">Contact</button>
-          <button className="bg-white text-purple-600 px-4 py-2 rounded-lg hover:bg-purple-50 transition-colors">
+          <button onClick = {()=>navigate('/auth')} className="bg-white text-purple-600 px-4 py-2 rounded-lg hover:bg-purple-50 transition-colors">
             Get Started
           </button>
         </div>

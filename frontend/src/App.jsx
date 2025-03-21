@@ -6,21 +6,25 @@ import {BrowserRouter, Route, Routes} from "react-router-dom";
 import Footer from './components/Footer'
 import Rem from './Reminder/Rem'
 import Auth from './pages/Auth'
-
+import ImageGallery from './components/ImageGallery';
 
 function App() {
 
   return (
+    <div>
     <BrowserRouter>
       <Navbar />
-      <Home />
-    <ImageUpload />
+      <Routes>
+        <Route path = '/' element = {<Home />}/>
+        <Route path = '/imageupload' element = {<ImageUpload />}/>
+        <Route path = '/auth' element = {<Auth />}/>
+        <Route path = '/reminder' element = {<Rem />}/>
+        <Route path = '/gallery' element = {<ImageGallery />}/>
+      </Routes>
       <Footer />
-      <Rem></Rem>
-      <Auth></Auth>
-      {/* <ImageUpload /> */}
-    </>
-  )
+      </BrowserRouter>
+      </div>
+  );
 }
 
 export default App
