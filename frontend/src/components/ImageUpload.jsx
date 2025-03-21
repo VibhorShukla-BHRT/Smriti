@@ -8,24 +8,55 @@ function App() {
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef(null);
   const [sparkles, setSparkles] = useState([]);
+  
+  const handleUpload = async (index) => {
+    const image = images[index];
+    if (!image.description) {
+      alert('Please add a description before uploading');
+      return;
+    }
+  
+    setImages(prev => prev.map((img, i) => 
+      i === index ? { ...img, status: 'uploading' } : img
+    ));
+  
+    try {
+      const formData = new FormData();
+      console.log(image.file);
+      formData.append('image', image.file);
+      formData.append('description', image.description);
+  
+      const res = await fetch('/save-image', {
+        method: 'POST',
+        body: formData
+      });
+  
+      if(res.ok){setImages(prev => prev.map((img, i) => 
+        i === index ? { ...img, status: 'success' } : img
+      ));}
+    } catch (error) {
+      setImages(prev => prev.map((img, i) => 
+        i === index ? { ...img, status: 'error' } : img
+      ));
+    }
+  };
+  // useEffect(() => {
+  //   const createSparkle = () => {
+  //     const sparkle = {
+  //       id: Math.random(),
+  //       left: Math.random() * 100 + '%',
+  //       top: Math.random() * 100 + '%',
+  //       size: Math.random() * 4 + 2 + 'px',
+  //     };
+  //     setSparkles(prev => [...prev, sparkle]);
+  //     setTimeout(() => {
+  //       setSparkles(prev => prev.filter(s => s.id !== sparkle.id));
+  //     }, 3000);
+  //   };
 
-  useEffect(() => {
-    const createSparkle = () => {
-      const sparkle = {
-        id: Math.random(),
-        left: Math.random() * 100 + '%',
-        top: Math.random() * 100 + '%',
-        size: Math.random() * 4 + 2 + 'px',
-      };
-      setSparkles(prev => [...prev, sparkle]);
-      setTimeout(() => {
-        setSparkles(prev => prev.filter(s => s.id !== sparkle.id));
-      }, 3000);
-    };
-
-    const interval = setInterval(createSparkle, 200);
-    return () => clearInterval(interval);
-  }, []);
+  //   const interval = setInterval(createSparkle, 200);
+  //   return () => clearInterval(interval);
+  // }, []);
 
   const handleDragOver = (e) => {
     e.preventDefault();
@@ -72,36 +103,6 @@ function App() {
     ));
   };
 
-  const handleUpload = async (index) => {
-    const image = images[index];
-    if (!image.description) {
-      alert('Please add a description before uploading');
-      return;
-    }
-
-    setImages(prev => prev.map((img, i) => 
-      i === index ? { ...img, status: 'uploading' } : img
-    ));
-
-    try {
-      const formData = new FormData();
-      formData.append('image', image.file);
-      formData.append('description', image.description);
-
-      await fetch('/api/upload', {
-        method: 'POST',
-        body: formData
-      });
-
-      setImages(prev => prev.map((img, i) => 
-        i === index ? { ...img, status: 'success' } : img
-      ));
-    } catch (error) {
-      setImages(prev => prev.map((img, i) => 
-        i === index ? { ...img, status: 'error' } : img
-      ));
-    }
-  };
 
   const removeImage = (index) => {
     setImages(prev => {
