@@ -1,6 +1,7 @@
 import React from 'react';
 import { Heart, Users, Calendar, Bell, Shield, Brain,MapPin, CalendarDays} from 'lucide-react';
 import image from '../assets/nurse-holding-hand.png'
+import {useNavigate} from 'react-router-dom'
 function FeatureCard({ title, description }) {
   return (
     <div className="bg-white/50 backdrop-blur-sm p-6 rounded-xl shadow-lg hover:shadow-xl transition-all">
@@ -14,6 +15,8 @@ function FeatureCard({ title, description }) {
 }
 
 function Home() {
+  const navigate = useNavigate();
+
   return (
     <div className="min-h-screen bg-gradient-to-r from-[#E066FF] to-[#8A7CFF] pt-[4rem]">
       {/* Hero Section */}
@@ -54,16 +57,20 @@ function Home() {
             How Smriti Helps
           </h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div onClick={()=>{navigate('./reminder')}}>
             <FeatureCard
               icon={Calendar}
               title="Daily Reminders"
               description="Gentle reminders for medications, appointments, and daily activities to maintain routine and independence."
             />
+            </div>
+            <div onClick={()=>{navigate('./gallery')}}>
             <FeatureCard
               icon={Users}
               title="Family Connection"
               description="Stay connected with loved ones through simplified communication tools and shared memories."
             />
+            </div>
             <FeatureCard
               icon={Bell}
               title="Smart Alerts"
