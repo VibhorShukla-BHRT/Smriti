@@ -16,7 +16,7 @@ function App() {
     <ImageUpload />
       <Footer />
       <Rem></Rem>
-      <Auth></Auth>
+      
       {/* <ImageUpload /> */}
     </>
   )
