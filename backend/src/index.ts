@@ -6,10 +6,11 @@ import { connectDB } from './utils/db';
 import locrouter from './routes/locroute';
 import { createServer } from 'http';
 import { Server } from 'socket.io';
-
+import cookieParser from "cookie-parser";
 dotenv.config();
 
 const app = express();
+app.use(cookieParser());
 const server = createServer(app);
 const io = new Server(server, {
   cors: {
@@ -19,7 +20,12 @@ const io = new Server(server, {
 });
 
 // Middleware
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:5173", // Change to your frontend URL
+    credentials: true,  // ✅ Allow cookies to be sent
+  })
+);
 app.use(express.json());
 
 // Connect to MongoDB
@@ -36,16 +42,16 @@ app.get('/', (req, res) => {
 
 // Socket.IO connection handling
 io.on('connection', (socket) => {
-  console.log('New client connected:', socket.id);
+  console.log('New client connected!');
 
   // Listen for location updates from the patient client
   socket.on('location-update', (data) => {
-    console.log('Received location update:', data);
+    // console.log('Received location update:', data);
     socket.broadcast.emit('location-update', data);
   });
 
   socket.on('disconnect', () => {
-    console.log('Client disconnected:', socket.id);
+    console.log('Client disconnected!');
   });
 });
 

@@ -4,9 +4,9 @@ import Calendar from './Calendar.jsx';
 
 const API_URL = 'http://localhost:3000/api/v1';
 const NOTIFICATION_SOUNDS = {
-  default: '../assets/remainder.mp3',
-  bell: '../assets/remainder.mp3',
-  chime: '../assets/remainder.mp3',
+  default: '/home/yagya/Projects/hackathons/smriti/frontend/src/assets/reminder.mp3',
+  bell: '/home/yagya/Projects/hackathons/smriti/frontend/src/assets/reminder.mp3',
+  chime: '/home/yagya/Projects/hackathons/smriti/frontend/src/assets/reminder.mp3',
 };
 
 function TasksPage() {

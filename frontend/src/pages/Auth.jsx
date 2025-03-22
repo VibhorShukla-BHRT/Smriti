@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Brain, Eye, EyeOff, User, Mail, Lock } from 'lucide-react';
 import { useNavigate } from 'react-router'
-
+import {toast} from 'react-toastify'
+import {useAuth} from '../context/Context'
 function GlitterBackground() {
   const [glitters, setGlitters] = useState([]);
-
+  const {isLoggedIn, setLoggedIn} = useAuth();
   useEffect(() => {
     const newGlitters = Array.from({ length: 50 }, (_, i) => ({
       id: i,
@@ -101,10 +102,13 @@ function AuthForm({ isLogin, onToggle, loginData, setLoginData, signupData, setS
         return response.json()
       })
       .then((data) => {
+        // toast.success("Logged In Successfully")
+        // setLoggedIn(true);
         navigate("/")
       })
       .catch(error => {
         console.error("Error during signup:", error);
+        // toast.error("Error")
       });
     } else {
       await fetch("http://localhost:3000/api/v1/user/auth/signup", {
@@ -121,6 +125,8 @@ function AuthForm({ isLogin, onToggle, loginData, setLoginData, signupData, setS
         return response.json()
       })
       .then((data) => {
+        // toast.success("Signed In Successfully")
+        // setLoggedIn(true)
         navigate("/")
       })
       .catch(error => {
