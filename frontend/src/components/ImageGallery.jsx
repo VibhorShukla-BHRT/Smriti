@@ -4,9 +4,7 @@ import { Calendar, Image as ImageIcon, X,Upload } from 'lucide-react';
 import image from '../assets/nurse-holding-hand.png';
 const ImageGallery = () => {
   const [uploaded,setUploaded] = useState(false);
-  const [images, setImages] = useState([{image: 'src/assets/nurse-holding-Hand.png' , description:"YO YO Honey Singh" , timestamp:"10/3/2025"},
-    {image: 'https://i.imgur.com/DPWhTGX.jpeg' , description:"hvcytewvgwdgcvdgywvc" , timestamp:"10/3/2025"}
-  ]);
+  const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
@@ -23,14 +21,24 @@ const ImageGallery = () => {
       const formData = new FormData();
       formData.append('image', selectedFile);
 
-      const response = await fetch('/upload-image', {
+      await fetch('http://127.0.0.1:5000/upload-image', {
         method: 'POST',
         body: formData,
-      });
-      if (!response.ok) {
-        throw new Error('Failed to fetch images');
-      }
-      // setImages(response);
+      }).then((response) => {
+        if(!response.ok) {
+          throw new Error("")
+        }
+        return response.json()
+      }).then((data) => {
+        if(!data.matches) {
+          // No matches found
+        } else {
+          setImages(data.matches)
+        }
+      }).catch((error) => {
+        console.log(error)
+      })
+
     } catch (error) {
       console.error('Upload failed:', error);
       setError(err.message);
@@ -165,7 +173,7 @@ const ImageGallery = () => {
               <X className="w-6 h-6" />
             </button>
             <img
-              src={selectedImage.imageUrl}
+              src={selectedImage.image}
               alt={selectedImage.description}
               className="w-full h-[70vh] object-contain"
             />
