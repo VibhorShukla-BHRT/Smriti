@@ -12,7 +12,9 @@ import io from 'socket.io-client';
 import { useEffect } from 'react';
 
 // Replace with your backend URL
-const socket = io('http://localhost:3000');
+const socket = io('http://localhost:3000', {
+  path: '/socket.io/' // Must match server's path
+})
 
 function App() {
       useEffect(() => {
@@ -49,7 +51,7 @@ function App() {
       }, []);
   return (
     <div>
-    <BrowserRouter>
+    <BrowserRouter> 
       <Navbar />
       <Routes>
         <Route path = '/' element = {<Home/>}/>

@@ -32,7 +32,8 @@ const signin = async (req: Request, res: Response): Promise<void> => {
     }
 
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      await signInWithEmailAndPassword(auth, email, password)
+      req.session.isLoggedIn = true
       res.status(200).json({
         success: true,
         msg: "Signed in successfully",
@@ -91,7 +92,7 @@ const signup = async (req: Request, res: Response): Promise<void> => {
         firebaseUid: firebaseUser.uid
       });
       await newUser.save();
-      
+      req.session.isLoggedIn = true
       res.status(201).json({
         success: true,
         msg: "Signed up successfully",
