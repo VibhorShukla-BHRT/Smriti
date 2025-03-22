@@ -22,33 +22,32 @@ function App() {
   
     try {
       const formData = new FormData();
-      console.log(image.file);
       formData.append('image', image.file);
       formData.append('description', image.description);
   
-      await fetch('http://127.0.0.1:5000/save-image', {
+      const response = await fetch('http://127.0.0.1:5000/save-image', {
         method: 'POST',
         body: formData
-      }).then((response) => {
-        if(!response.ok) {
-          throw new Error("")
-        }
-        return response.json()
-      }).then((data) => {
-        console.log(data)
-      }).catch(error => {
-        console.log(error)
-      })
+      });
   
-      if(res.ok){setImages(prev => prev.map((img, i) => 
-        i === index ? { ...img, status: 'success' } : img
-      ));}
+      const data = await response.json(); // Parse response JSON
+  
+      if (response.ok) {
+        console.log(data); // Debugging
+        setImages(prev => prev.map((img, i) => 
+          i === index ? { ...img, status: 'success' } : img
+        ));
+      } else {
+        throw new Error(data.message || "Upload failed");
+      }
     } catch (error) {
+      console.error("Upload error:", error);
       setImages(prev => prev.map((img, i) => 
         i === index ? { ...img, status: 'error' } : img
       ));
     }
   };
+  
   // useEffect(() => {
   //   const createSparkle = () => {
   //     const sparkle = {
@@ -254,7 +253,7 @@ function App() {
                         <motion.span 
                           initial={{ scale: 0 }}
                           animate={{ scale: 1 }}
-                          className="text-sm text-green-400 flex items-center gap-1"
+                          className="text-sm text-green-700 flex items-center gap-1"
                         >
                           <CheckCircle className="w-4 h-4" />
                           Uploaded

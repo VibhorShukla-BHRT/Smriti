@@ -1,46 +1,32 @@
-import express from 'express';
-import cors from 'cors';
-import router from './routes/user';
-import dotenv from 'dotenv';
-import { connectDB } from './utils/db';
-import locrouter from './routes/locroute';
-import { createServer } from 'http';
-import { Server } from 'socket.io';
+// server.js
+import express from 'express'
+import http from 'http'
+const socketIo = require('socket.io');
 
-dotenv.config();
-
+// Create the Express app and HTTP server
 const app = express();
-const server = createServer(app);
-const io = new Server(server, {
+const server = http.createServer(app);
+const io = socketIo(server, {
   cors: {
     origin: "*", // For development only. In production, set the allowed origins.
     methods: ["GET", "POST"]
   }
 });
 
-// Middleware
-app.use(cors());
-app.use(express.json());
-
-// Connect to MongoDB
-connectDB();
-
-// Routes
-app.use('/api/v1', router);
-app.use('/api/v1', locrouter);
-
-// Serve a simple landing page
+// Optional: Serve a simple landing page
 app.get('/', (req, res) => {
   res.send("Socket.IO backend is running.");
 });
 
 // Socket.IO connection handling
-io.on('connection', (socket) => {
+io.on('connection', (socket: any) => {
   console.log('New client connected:', socket.id);
 
   // Listen for location updates from the patient client
-  socket.on('location-update', (data) => {
+  socket.on('location-update', (data: any) => {
     console.log('Received location update:', data);
+    console.log('Received location update:', data);
+    // Broadcast the update to all other clients (for the parent app)
     socket.broadcast.emit('location-update', data);
   });
 
@@ -49,6 +35,7 @@ io.on('connection', (socket) => {
   });
 });
 
+// Start the server
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

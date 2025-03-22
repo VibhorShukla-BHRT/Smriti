@@ -52,7 +52,8 @@ function App() {
     <BrowserRouter>
       <Navbar />
       <Routes>
-        <Route path = '/' element = {<Locations/>}/>
+        <Route path = '/' element = {<Home/>}/>
+        <Route path = '/locations' element = {<Locations/>}/>
         <Route path = '/imageupload' element = {<ImageUpload />}/>
         <Route path = '/auth' element = {<Auth />}/>
         <Route path = '/reminder' element = {<Rem />}/>
