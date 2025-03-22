@@ -5,6 +5,7 @@ import pickle
 import datetime
 import requests
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 from werkzeug.utils import secure_filename
 from flask import Flask, request, jsonify
 import httpx
@@ -14,8 +15,10 @@ from dotenv import load_dotenv
 load_dotenv()
 app = Flask(__name__)
 
+CORS(app)
+
 # Config
-DB_PATH = "/home/yagya/Projects/hackathons/smriti/pyBackend/faces.db"
+DB_PATH = "/home/maxcillius/Dev/Projects/Smriti/pyBackend/faces.db"
 ALLOWED_EXTENSIONS = {"jpg", "jpeg", "png"}
 IMGUR_CLIENT_ID = os.getenv("CLIENT_ID")
 IMGUR_UPLOAD_URL = "https://api.imgur.com/3/image"
