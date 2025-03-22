@@ -55,6 +55,29 @@ Our solution aims to provide **smart, AI-powered** assistance to overcome these 
 
 ---
 
+## **Future Scope** 🚀  
+
+As we continue developing Smriti, we aim to introduce:  
+
+### 🌐 **Enhanced AI Features**  
+- ✅ **Voice-Assisted Chatbot** – Allowing users to talk instead of type.  
+- ✅ **Emotion Detection** – Analyzing voice tone & facial expressions to adjust chatbot responses.  
+- ✅ **Personalized Memory Retrieval** – AI-assisted memory recall based on past interactions.  
+
+### 📱 **Mobile App Version**  
+- ✅ A **dedicated Android & iOS app** for better accessibility.  
+- ✅ **Offline Mode** – Storing critical data locally for users without internet access.  
+
+### 🏠 **IoT & Smart Home Integration**  
+- ✅ **Smart Reminders** – Sync with smart home devices (lights, alarms) to alert users.  
+- ✅ **Fall Detection** – Using sensors to notify guardians of potential accidents.  
+
+### 👨‍⚕️ **Doctor & Guardian Dashboard**  
+- ✅ **Health & Behavior Reports** – AI-generated insights for doctors & guardians.  
+- ✅ **Teleconsultation** – Directly connecting users with healthcare professionals.  
+
+---
+
 🚀 **Smriti aims to restore dignity, independence, and happiness to those suffering from memory-related disorders.**  
 
 💡 *Developed with love & care for a better future!* 💙  
