@@ -26,10 +26,19 @@ function App() {
       formData.append('image', image.file);
       formData.append('description', image.description);
   
-      const res = await fetch('/save-image', {
+      await fetch('http://127.0.0.1:5000/save-image', {
         method: 'POST',
         body: formData
-      });
+      }).then((response) => {
+        if(!response.ok) {
+          throw new Error("")
+        }
+        return response.json()
+      }).then((data) => {
+        console.log(data)
+      }).catch(error => {
+        console.log(error)
+      })
   
       if(res.ok){setImages(prev => prev.map((img, i) => 
         i === index ? { ...img, status: 'success' } : img
