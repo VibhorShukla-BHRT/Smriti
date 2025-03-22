@@ -7,6 +7,10 @@ import requests
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from werkzeug.utils import secure_filename
+from flask import Flask, request, jsonify
+import httpx
+from flask import Flask, render_template, request
+import google.generativeai as genai
 from dotenv import load_dotenv
 load_dotenv()
 app = Flask(__name__)
@@ -18,7 +22,11 @@ DB_PATH = "/home/maxcillius/Dev/Projects/Smriti/pyBackend/faces.db"
 ALLOWED_EXTENSIONS = {"jpg", "jpeg", "png"}
 IMGUR_CLIENT_ID = os.getenv("CLIENT_ID")
 IMGUR_UPLOAD_URL = "https://api.imgur.com/3/image"
+API_URL = "https://api-inference.huggingface.co/models/microsoft/DialoGPT-small"
+HEADERS = {"Authorization": f"Bearer {os.getenv('HUGGING_FACE_ACCESS_TOKEN')}"}
 
+# user_sessions = {}
+genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 # Initialize database
 with sqlite3.connect(DB_PATH) as conn:
     cursor = conn.cursor()
@@ -33,6 +41,31 @@ with sqlite3.connect(DB_PATH) as conn:
     """)
     conn.commit()
 
+
+# async def query_huggingface(conversation):
+#     payload = {"inputs": conversation}
+#     async with httpx.AsyncClient() as client:
+#         try:
+#             response = await client.post(API_URL, headers=HEADERS, json=payload, timeout=10)  # Timeout set to 10s
+
+#             if response.status_code == 429:
+#                 return {"error": "Rate limit exceeded. Try again later."}
+#             if response.status_code != 200:
+#                 return {"error": f"API Error: {response.status_code}, {response.text}"}
+
+#             return response.json()
+#         except httpx.RequestError as e:
+#             return {"error": f"Request failed: {str(e)}"}
+
+def get_chatbot_response(user_message):
+    """Sends user input to the AI model and gets the response."""
+    payload = {"inputs": user_message}
+    response = requests.post(API_URL, headers=HEADERS, json=payload)
+    
+    if response.status_code == 200:
+        return response.json()[0]["generated_text"]
+    else:
+        return "Sorry, I'm unable to respond at the moment."
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
@@ -115,6 +148,41 @@ def upload_image():
     
     matches = find_matching_faces(file)
     return jsonify({"matches": matches if matches else "No matching faces found, try saving this memory <3"})
+
+
+# @app.route('/chat', methods=['POST'])
+# async def chat():
+#     data = request.json
+#     user_id = data.get("user_id", "default")
+#     user_message = data.get("message", "")
+
+#     if not user_message:
+#         return jsonify({"error": "Message cannot be empty"}), 400
+
+#     if user_id not in user_sessions:
+#         user_sessions[user_id] = []
+
+#     user_sessions[user_id].append(user_message)
+#     conversation = user_sessions[user_id][-3:]  # Send only last 3 messages
+
+#     # Call the API asynchronously
+#     response = await query_huggingface(conversation)
+
+#     if isinstance(response, list) and len(response) > 0:
+#         bot_reply = response[0].get("generated_text", "I'm here to listen.")
+#     else:
+#         bot_reply = "I'm here to listen."
+
+#     user_sessions[user_id].append(bot_reply)
+#     return jsonify({"response": bot_reply})
+
+@app.route('/chat', methods=['POST'])
+def chat():
+    user_input = request.form['message']
+    model = genai.GenerativeModel('gemini-1.5-flash')
+    chat_session = model.start_chat()
+    response = chat_session.send_message(user_input)
+    return {'response': response.text}
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5000, debug=True)
