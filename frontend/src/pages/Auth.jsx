@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Brain, Eye, EyeOff, User, Mail, Lock } from 'lucide-react';
+import { useNavigate } from 'react-router'
 
 function GlitterBackground() {
   const [glitters, setGlitters] = useState([]);
@@ -81,14 +82,50 @@ function PasswordInput({ label, placeholder, value, onChange }) {
 }
 
 function AuthForm({ isLogin, onToggle, loginData, setLoginData, signupData, setSignupData }) {
+  const navigate = useNavigate()
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (isLogin) {
-      console.log("Login Data:", loginData);
-      
+      await fetch("http://localhost:3000/api/v1/user/auth/signin", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(loginData)
+      })
+      .then((response) => {
+        if(!response.ok) {
+          throw new Error('Signin failed')
+        }
+        return response.json()
+      })
+      .then((data) => {
+        navigate("/")
+      })
+      .catch(error => {
+        console.error("Error during signup:", error);
+      });
     } else {
-      console.log("Signup Data:", signupData);
+      await fetch("http://localhost:3000/api/v1/user/auth/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(signupData)
+      })
+      .then((response) => {
+        if(!response.ok) {
+          throw new Error('Signup failed')
+        }
+        return response.json()
+      })
+      .then((data) => {
+        navigate("/")
+      })
+      .catch(error => {
+        console.error("Error during signup:", error);
+      });
     }
   };
 
