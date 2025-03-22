@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { MapPin, Plus, Navigation } from 'lucide-react';
 
 function Locations() {
@@ -9,23 +9,46 @@ function Locations() {
     description: ''
   });
 
-  const handleSubmit = (e) => {
+  // Fetch locations from the backend
+  useEffect(() => {
+    fetch('http://localhost:3000/api/v1/locations/get-location')
+      .then((response) => response.json())
+      .then((data) => setLocations(data.locations))
+      .catch((error) => console.error('Error fetching locations:', error));
+  }, []);
+
+  // Handle form submission
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.longitude || !formData.latitude || !formData.description) return;
 
-    setLocations([
-      ...locations,
-      {
-        id: Date.now(),
-        ...formData
-      }
-    ]);
+    try {
+      const response = await fetch('http://localhost:3000/api/v1/locations/set-location', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          longitude: formData.longitude,
+          latitude: formData.latitude,
+          description: formData.description
+        })
+      });
 
-    setFormData({
-      longitude: '',
-      latitude: '',
-      description: ''
-    });
+      if (response.ok) {
+        setFormData({ longitude: '', latitude: '', description: '' });
+
+        // Refetch the locations to update the UI
+        fetch('http://localhost:3000/api/v1/locations/get-location')
+          .then((res) => res.json())
+          .then((data) => setLocations(data.locations))
+          .catch((error) => console.error('Error fetching updated locations:', error));
+      } else {
+        console.error('Failed to save location');
+      }
+    } catch (error) {
+      console.error('Error submitting location:', error);
+    }
   };
 
   return (
@@ -86,7 +109,7 @@ function Locations() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {locations.map((location) => (
               <div
-                key={location.id}
+                key={location._id}
                 className="group bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl rounded-2xl p-6 shadow-xl ring-1 ring-white/20 transform hover:scale-105 hover:rotate-1 transition-all duration-300"
               >
                 <div className="flex items-start justify-between mb-4">
@@ -115,19 +138,17 @@ function Locations() {
                       {location.description}
                     </p>
                   </div>
-                  <div className='pl-1 pr-1 pt-1 pb-1 '>
-                    <button
+                  <button
                     onClick={() => {
-                        const homeLat = 21.2514;   // Default Home Latitude
-                        const homeLng = 81.6296;   // Default Home Longitude
-                        const googleMapsUrl = `https://www.google.com/maps/dir/?api=1&origin=${location.latitude},${location.longitude}&destination=${homeLat},${homeLng}`;
-                        window.open(googleMapsUrl, '_blank');
+                      const homeLat = 21.2514;   // Default Home Latitude
+                      const homeLng = 81.6296;   // Default Home Longitude
+                      const googleMapsUrl = `https://www.google.com/maps/dir/?api=1&origin=${location.latitude},${location.longitude}&destination=${homeLat},${homeLng}`;
+                      window.open(googleMapsUrl, '_blank');
                     }}
                     className="bg-white text-[#a39be8] text-xl font-semibold py-2 px-2 rounded-lg shadow hover:bg-gray-100 transition"
-                    >
+                  >
                     Open in Google Maps
-                    </button>
-                    </div>
+                  </button>
                 </div>
               </div>
             ))}

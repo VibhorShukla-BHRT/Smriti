@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { Plus, Bell, Trash2, Volume2 } from 'lucide-react';
 import Calendar from './Calendar.jsx';
 
-const API_URL = 'http://localhost:3000/api';
+const API_URL = 'http://localhost:3000/api/v1';
 const NOTIFICATION_SOUNDS = {
-  default: '/assets/reminder.mp3',
-  bell: '/assets/reminder.mp3',
-  chime: '/assets/reminder.mp3',
+  default: '../assets/remainder.mp3',
+  bell: '../assets/remainder.mp3',
+  chime: '../assets/remainder.mp3',
 };
 
 function TasksPage() {
@@ -30,16 +30,23 @@ function TasksPage() {
 
   async function fetchTasks() {
     try {
-      const response = await fetch(`${API_URL}/tasks?` + new URLSearchParams({
+      const response = await fetch(`${API_URL}/user/gettask?` + new URLSearchParams({
         date: selectedDate.toISOString().split('T')[0]
       }));
+      
       const data = await response.json();
-      setTasks(data || []);
+      console.log('Fetched tasks:', data); // Debugging log
+      if (data && data.tasks) {
+        setTasks(data.tasks); // Fix: Access tasks array correctly
+      } else {
+        setTasks([]);
+      }
     } catch (error) {
       console.error('Error fetching tasks:', error);
+      setTasks([]); // Prevent errors if fetch fails
     }
   }
-
+  
   useEffect(() => {
     const intervals = [];
 
@@ -85,7 +92,7 @@ function TasksPage() {
     };
 
     try {
-      const response = await fetch(`${API_URL}/tasks`, {
+      const response = await fetch(`${API_URL}/user/createtask`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -111,7 +118,7 @@ function TasksPage() {
 
   const deleteTask = async (taskId) => {
     try {
-      const response = await fetch(`${API_URL}/tasks/${taskId}`, {
+      const response = await fetch(`${API_URL}/user/deletetask/${taskId}`, {
         method: 'DELETE',
       });
 

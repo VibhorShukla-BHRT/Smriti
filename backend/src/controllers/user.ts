@@ -117,7 +117,7 @@ const signup = async (req: Request, res: Response): Promise<void> => {
 
 const getTasks = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { date, userId } = req.query;
+    const { date } = req.query;
     
     if (!date) {
       res.status(400).json({
@@ -126,13 +126,7 @@ const getTasks = async (req: Request, res: Response): Promise<void> => {
       });
       return;
     }
-    
-    const query: any = { date: new Date(date as string) };
-    if (userId) {
-      query.userId = userId;
-    }
-    
-    const tasks = await Task.find(query);
+    const tasks = await Task.find({date});
     res.status(200).json({
       success: true,
       tasks
@@ -180,8 +174,8 @@ const createTask = async (req: Request, res: Response): Promise<void> => {
 
 const deleteTask = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { id } = req.params;
-    if (!id) {
+    const { taskid } = req.params;
+    if (!taskid) {
       res.status(400).json({
         success: false,
         msg: "Task ID is required"
@@ -189,7 +183,7 @@ const deleteTask = async (req: Request, res: Response): Promise<void> => {
       return;
     }
     
-    const deletedTask = await Task.findByIdAndDelete(id);
+    const deletedTask = await Task.findByIdAndDelete(taskid);
     if (!deletedTask) {
       res.status(404).json({
         success: false,

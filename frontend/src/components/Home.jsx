@@ -3,9 +3,8 @@ import { Heart, Users, Calendar, Bell, Shield, Brain,MapPin, CalendarDays} from 
 import {motion} from 'framer-motion';
 import image from '../assets/nurse-holding-hand.png'
 import {useNavigate} from 'react-router-dom'
-import ChatBot from './chatBot';
+import ChatBot from './ChatBot';
 import heart from '../assets/heart.png'
-
 function FeatureCard({ icon ,title, description }) {
   return (
     <div className="bg-white/50 backdrop-blur-sm p-6 rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all cursor-pointer">

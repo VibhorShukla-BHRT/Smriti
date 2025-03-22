@@ -48,8 +48,19 @@ const userSchema = new mongoose.Schema({
     type: String
   }
 })
-
+const location = new mongoose.Schema({
+  latitude:{
+    type: String,
+  },
+  longitude:{
+    type: String
+  },
+  description:{
+    type: String
+  }
+});
+const locationModel = mongoose.model("Locations",location,"Locations")
 const Task = mongoose.model('Task', taskSchema)
 const User = mongoose.model('User', userSchema)
 
-export { Task, User }
+export { Task, User,locationModel }

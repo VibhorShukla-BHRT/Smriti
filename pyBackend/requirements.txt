@@ -11,3 +11,4 @@ sqlalchemy<2.0
 flask 
 requests
 httpx
+flask_cors
