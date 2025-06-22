@@ -18,7 +18,7 @@ app = Flask(__name__)
 CORS(app)
 
 # Config
-DB_PATH = "/home/yagya/Projects/hackathons/smriti/pyBackend/faces.db"
+DB_PATH = DB_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "faces.db")
 ALLOWED_EXTENSIONS = {"jpg", "jpeg", "png"}
 IMGUR_CLIENT_ID = os.getenv("CLIENT_ID")
 IMGUR_UPLOAD_URL = "https://api.imgur.com/3/image"

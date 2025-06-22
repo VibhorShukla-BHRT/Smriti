@@ -3,7 +3,7 @@ import { Heart, Users, Calendar, Bell, Shield, Brain,MapPin, CalendarDays} from 
 import {motion} from 'framer-motion';
 import image from '../assets/nurse-holding-hand.png'
 import {useNavigate} from 'react-router-dom'
-import ChatBot from './ChatBot';
+import ChatBot from './chatBot';
 import heart from '../assets/heart.png'
 function FeatureCard({ icon ,title, description }) {
   return (
@@ -93,15 +93,17 @@ function Home() {
             <div onClick={()=>{navigate('./gallery')}}>
             <FeatureCard
               icon="Users"
-              title="Family Connection"
+              title="Recall People"
               description="Stay connected with loved ones through simplified communication tools and shared memories."
             />
             </div>
+            <div onClick={()=>{navigate('./locations')}}>
             <FeatureCard
               icon="MapPin"
               title="Locate"
               description="Map based support to go to familiar places for your daily needs."
             />
+            </div>
             <FeatureCard
               icon="Bell"
               title="Smart Alerts"
